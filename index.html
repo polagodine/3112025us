@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Od 3. novembra</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #0a0a0a;
+    color: #f5f5f5;
+    overflow: hidden;
+  }
+
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  /* Subtle red glow in background */
+  body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(180, 20, 30, 0.18), transparent 60%);
+    pointer-events: none;
+  }
+
+  .card {
+    position: relative;
+    text-align: center;
+    padding: 60px 70px;
+    border: 1px solid rgba(220, 38, 38, 0.35);
+    border-radius: 4px;
+    background: rgba(15, 15, 15, 0.85);
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.6),
+      0 30px 80px rgba(0, 0, 0, 0.6),
+      inset 0 0 60px rgba(180, 20, 30, 0.08);
+    max-width: 90vw;
+  }
+
+  .label {
+    font-size: 14px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: #b91c1c;
+    margin-bottom: 28px;
+    font-weight: 500;
+  }
+
+  .headline {
+    font-size: clamp(20px, 3.2vw, 30px);
+    font-weight: 300;
+    color: #e5e5e5;
+    margin-bottom: 40px;
+    letter-spacing: 0.02em;
+  }
+
+  .headline .date {
+    color: #ef4444;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(239, 68, 68, 0.4);
+    padding-bottom: 2px;
+  }
+
+  .counter {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 10px;
+  }
+
+  .unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 110px;
+  }
+
+  .number {
+    font-size: clamp(56px, 9vw, 96px);
+    font-weight: 700;
+    line-height: 1;
+    color: #f5f5f5;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 0 30px rgba(239, 68, 68, 0.25);
+  }
+
+  .number.accent {
+    color: #ef4444;
+  }
+
+  .unit-label {
+    margin-top: 14px;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #888;
+  }
+
+  .divider {
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(220, 38, 38, 0.5), transparent);
+    align-self: stretch;
+  }
+
+  @media (max-width: 600px) {
+    .card { padding: 40px 30px; }
+    .counter { gap: 28px; }
+    .unit { min-width: 0; }
+    .label { font-size: 11px; letter-spacing: 0.3em; }
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="label">Volim te</div>
+    <h1 class="headline">Od <span class="date">3. novembra</span> je prošlo:</h1>
+    <div class="counter">
+      <div class="unit">
+        <div class="number accent" id="months">---</div>
+        <div class="unit-label">meseci</div>
+      </div>
+      <div class="divider"></div>
+      <div class="unit">
+        <div class="number" id="days">---</div>
+        <div class="unit-label">dana</div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Configurable start year — defaults to most recent past Nov 3
+  function getStartDate() {
+    const now = new Date();
+    let year = now.getFullYear();
+    let candidate = new Date(year, 10, 3); // month is 0-indexed, 10 = November
+    if (candidate > now) {
+      candidate = new Date(year - 1, 10, 3);
+    }
+    return candidate;
+  }
+
+  function pluralizeMonths(n) {
+    // Slovenian dual/plural: 1 mesec, 2 meseca, 3-4 mesece, 5+ mesecev
+    const mod10 = n % 10;
+    const mod100 = n % 100;
+    if (mod10 === 1 && mod100 !== 11) return 'mesec';
+    if (mod10 === 2 && mod100 !== 12) return 'meseca';
+    if ((mod10 === 3 || mod10 === 4) && (mod100 < 13 || mod100 > 14)) return 'mesece';
+    return 'mesecev';
+  }
+
+  function pluralizeDays(n) {
+    const mod10 = n % 10;
+    const mod100 = n % 100;
+    if (mod10 === 1 && mod100 !== 11) return 'dan';
+    if (mod10 === 2 && mod100 !== 12) return 'dneva';
+    if ((mod10 === 3 || mod10 === 4) && (mod100 < 13 || mod100 > 14)) return 'dni';
+    return 'dni';
+  }
+
+  function update() {
+    const start = getStartDate();
+    const now = new Date();
+
+    let months = (now.getFullYear() - start.getFullYear()) * 12
+               + (now.getMonth() - start.getMonth());
+
+    // Anchor for "days since the same day-of-month X months ago"
+    const anchor = new Date(start.getFullYear(), start.getMonth() + months, start.getDate());
+    if (anchor > now) {
+      months -= 1;
+    }
+    const finalAnchor = new Date(start.getFullYear(), start.getMonth() + months, start.getDate());
+    const days = Math.floor((now - finalAnchor) / (1000 * 60 * 60 * 24));
+
+    document.getElementById('months').textContent = months;
+    document.getElementById('days').textContent = days;
+
+    document.querySelectorAll('.unit-label')[0].textContent = pluralizeMonths(months);
+    document.querySelectorAll('.unit-label')[1].textContent = pluralizeDays(days);
+  }
+
+  update();
+  // Refresh at midnight
+  setInterval(update, 60 * 1000);
+</script>
+</body>
+</html>
