@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sl">
+<html lang="sr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -120,7 +120,7 @@
 </head>
 <body>
   <div class="card">
-    <div class="label">Volim te</div>
+    <div class="label">Odbrojavanje · Counter</div>
     <h1 class="headline">Od <span class="date">3. novembra</span> je prošlo:</h1>
     <div class="counter">
       <div class="unit">
@@ -130,7 +130,7 @@
       <div class="divider"></div>
       <div class="unit">
         <div class="number" id="days">---</div>
-        <div class="unit-label">dana</div>
+        <div class="unit-label">dni</div>
       </div>
     </div>
   </div>
@@ -148,22 +148,20 @@
   }
 
   function pluralizeMonths(n) {
-    // Slovenian dual/plural: 1 mesec, 2 meseca, 3-4 mesece, 5+ mesecev
+    // Serbian: 1 mesec, 2-4 meseca, 5+ meseci (with teens exception)
     const mod10 = n % 10;
     const mod100 = n % 100;
     if (mod10 === 1 && mod100 !== 11) return 'mesec';
-    if (mod10 === 2 && mod100 !== 12) return 'meseca';
-    if ((mod10 === 3 || mod10 === 4) && (mod100 < 13 || mod100 > 14)) return 'mesece';
-    return 'mesecev';
+    if ((mod10 >= 2 && mod10 <= 4) && (mod100 < 12 || mod100 > 14)) return 'meseca';
+    return 'meseci';
   }
 
   function pluralizeDays(n) {
+    // Serbian: 1 dan, 2-4 dana, 5+ dana
     const mod10 = n % 10;
     const mod100 = n % 100;
     if (mod10 === 1 && mod100 !== 11) return 'dan';
-    if (mod10 === 2 && mod100 !== 12) return 'dneva';
-    if ((mod10 === 3 || mod10 === 4) && (mod100 < 13 || mod100 > 14)) return 'dni';
-    return 'dni';
+    return 'dana';
   }
 
   function update() {
