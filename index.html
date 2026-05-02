@@ -4,22 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Od 3. novembra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&family=Pinyon+Script&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   html, body {
-    height: 100%;
+    min-height: 100%;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     background: #0a0a0a;
     color: #f5f5f5;
-    overflow: hidden;
   }
 
   body {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 40px 20px;
     position: relative;
+    min-height: 100vh;
   }
 
   /* Subtle red glow in background */
@@ -27,38 +31,88 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 50% 50%, rgba(180, 20, 30, 0.18), transparent 60%);
+    background: radial-gradient(ellipse at 50% 45%, rgba(180, 20, 30, 0.22), transparent 65%);
     pointer-events: none;
   }
 
-  .card {
+  /* Heart frame */
+  .heart-frame {
     position: relative;
+    width: min(720px, 96vw);
+    aspect-ratio: 100 / 92;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .heart-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    animation: heartbeat 2.4s ease-in-out infinite;
+    filter: drop-shadow(0 0 30px rgba(239, 68, 68, 0.35));
+  }
+
+  .heart-svg path {
+    fill: rgba(180, 20, 30, 0.06);
+    stroke: #ef4444;
+    stroke-width: 0.45;
+    stroke-linejoin: round;
+  }
+
+  @keyframes heartbeat {
+    0%, 60%, 100% { transform: scale(1); }
+    15%           { transform: scale(1.025); }
+    30%           { transform: scale(1); }
+    45%           { transform: scale(1.015); }
+  }
+
+  /* Inner content stack */
+  .stack {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    width: 70%;
+    margin-top: 6%;
+  }
+
+  .card {
+    width: 100%;
     text-align: center;
-    padding: 60px 70px;
-    border: 1px solid rgba(220, 38, 38, 0.35);
+    padding: 26px 30px;
+    border: 1px solid rgba(220, 38, 38, 0.4);
     border-radius: 4px;
-    background: rgba(15, 15, 15, 0.85);
+    background: rgba(15, 15, 15, 0.92);
     box-shadow:
       0 0 0 1px rgba(0, 0, 0, 0.6),
-      0 30px 80px rgba(0, 0, 0, 0.6),
-      inset 0 0 60px rgba(180, 20, 30, 0.08);
-    max-width: 90vw;
+      0 20px 50px rgba(0, 0, 0, 0.7),
+      inset 0 0 40px rgba(180, 20, 30, 0.1);
+  }
+
+  .card.small {
+    width: 65%;
+    padding: 18px 24px;
   }
 
   .label {
-    font-size: 14px;
-    letter-spacing: 0.4em;
+    font-size: 11px;
+    letter-spacing: 0.35em;
     text-transform: uppercase;
     color: #b91c1c;
-    margin-bottom: 28px;
+    margin-bottom: 14px;
     font-weight: 500;
   }
 
   .headline {
-    font-size: clamp(20px, 3.2vw, 30px);
+    font-size: clamp(15px, 2.2vw, 20px);
     font-weight: 300;
     color: #e5e5e5;
-    margin-bottom: 40px;
+    margin-bottom: 18px;
     letter-spacing: 0.02em;
   }
 
@@ -72,24 +126,23 @@
   .counter {
     display: flex;
     justify-content: center;
-    gap: 50px;
-    margin-top: 10px;
+    gap: 28px;
   }
 
   .unit {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 110px;
+    min-width: 80px;
   }
 
   .number {
-    font-size: clamp(56px, 9vw, 96px);
+    font-size: clamp(36px, 6.5vw, 64px);
     font-weight: 700;
     line-height: 1;
     color: #f5f5f5;
     font-variant-numeric: tabular-nums;
-    text-shadow: 0 0 30px rgba(239, 68, 68, 0.25);
+    text-shadow: 0 0 24px rgba(239, 68, 68, 0.25);
   }
 
   .number.accent {
@@ -97,8 +150,8 @@
   }
 
   .unit-label {
-    margin-top: 14px;
-    font-size: 13px;
+    margin-top: 10px;
+    font-size: 10px;
     letter-spacing: 0.3em;
     text-transform: uppercase;
     color: #888;
@@ -110,37 +163,113 @@
     align-self: stretch;
   }
 
+  .infinity {
+    font-size: clamp(48px, 8vw, 120px);
+    line-height: 1;
+    color: #ef4444;
+    font-weight: 300;
+    text-shadow: 0 0 30px rgba(239, 68, 68, 0.6);
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  .initials {
+    margin-top: 14px;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0;
+    line-height: 1;
+    color: #f5f5f5;
+    text-shadow: 0 0 24px rgba(239, 68, 68, 0.45);
+  }
+
+  .initials .letter {
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(38px, 6.5vw, 62px);
+    color: #f5f5f5;
+  }
+
+  .initials .amp {
+    font-family: 'Times New Roman', Times, serif, cursive;
+    font-weight: 400;
+    font-size: clamp(46px, 8vw, 55px);
+    color: #ef4444;
+    margin: 0 0.05em;
+    transform: translateY(0.1em);
+    text-shadow: 0 0 18px rgba(239, 68, 68, 0.6);
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      text-shadow: 0 0 30px rgba(239, 68, 68, 0.4);
+      transform: scale(1);
+    }
+    50% {
+      text-shadow: 0 0 50px rgba(239, 68, 68, 0.8);
+      transform: scale(1.04);
+    }
+  }
+
   @media (max-width: 600px) {
-    .card { padding: 40px 30px; }
-    .counter { gap: 28px; }
+    .stack { width: 78%; gap: 10px; }
+    .card { padding: 18px 16px; }
+    .card.small { width: 75%; padding: 14px 16px; }
+    .label { font-size: 9px; letter-spacing: 0.25em; margin-bottom: 10px; }
+    .headline { margin-bottom: 12px; }
+    .counter { gap: 14px; }
     .unit { min-width: 0; }
-    .label { font-size: 11px; letter-spacing: 0.3em; }
+    .unit-label { font-size: 9px; letter-spacing: 0.2em; }
   }
 </style>
 </head>
 <body>
-  <div class="card">
-    <div class="label">Odbrojavanje · Counter</div>
-    <h1 class="headline">Od <span class="date">3. novembra</span> je prošlo:</h1>
-    <div class="counter">
-      <div class="unit">
-        <div class="number accent" id="months">---</div>
-        <div class="unit-label">meseci</div>
+  <div class="heart-frame">
+    <svg class="heart-svg" viewBox="0 0 100 92" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <path d="M50,86
+               C50,86 6,58 6,30
+               C6,16 16,6 30,6
+               C40,6 47,12 50,20
+               C53,12 60,6 70,6
+               C84,6 94,16 94,30
+               C94,58 50,86 50,86 Z" />
+    </svg>
+
+    <div class="stack">
+      <div class="card">
+        <div class="label">VOLIM TE</div>
+        <h1 class="headline">Od <span class="date">3. novembra</span> je prošlo:</h1>
+        <div class="counter">
+          <div class="unit">
+            <div class="number accent" id="months">---</div>
+            <div class="unit-label">meseci</div>
+          </div>
+          <div class="divider"></div>
+          <div class="unit">
+            <div class="number" id="days">---</div>
+            <div class="unit-label">dana</div>
+          </div>
+        </div>
       </div>
-      <div class="divider"></div>
-      <div class="unit">
-        <div class="number" id="days">---</div>
-        <div class="unit-label">dni</div>
+
+      <div class="card small">
+        <div class="label">Preostalo</div>
+        <div class="infinity">∞</div>
+        <div class="initials">
+          <span class="letter">E</span>
+          <span class="amp">&amp;</span>
+          <span class="letter">I</span>
+        </div>
       </div>
     </div>
   </div>
 
 <script>
-  // Configurable start year — defaults to most recent past Nov 3
   function getStartDate() {
     const now = new Date();
     let year = now.getFullYear();
-    let candidate = new Date(year, 10, 3); // month is 0-indexed, 10 = November
+    let candidate = new Date(year, 10, 3);
     if (candidate > now) {
       candidate = new Date(year - 1, 10, 3);
     }
@@ -148,7 +277,6 @@
   }
 
   function pluralizeMonths(n) {
-    // Serbian: 1 mesec, 2-4 meseca, 5+ meseci (with teens exception)
     const mod10 = n % 10;
     const mod100 = n % 100;
     if (mod10 === 1 && mod100 !== 11) return 'mesec';
@@ -157,7 +285,6 @@
   }
 
   function pluralizeDays(n) {
-    // Serbian: 1 dan, 2-4 dana, 5+ dana
     const mod10 = n % 10;
     const mod100 = n % 100;
     if (mod10 === 1 && mod100 !== 11) return 'dan';
@@ -171,11 +298,9 @@
     let months = (now.getFullYear() - start.getFullYear()) * 12
                + (now.getMonth() - start.getMonth());
 
-    // Anchor for "days since the same day-of-month X months ago"
     const anchor = new Date(start.getFullYear(), start.getMonth() + months, start.getDate());
-    if (anchor > now) {
-      months -= 1;
-    }
+    if (anchor > now) months -= 1;
+
     const finalAnchor = new Date(start.getFullYear(), start.getMonth() + months, start.getDate());
     const days = Math.floor((now - finalAnchor) / (1000 * 60 * 60 * 24));
 
@@ -187,7 +312,6 @@
   }
 
   update();
-  // Refresh at midnight
   setInterval(update, 60 * 1000);
 </script>
 </body>
