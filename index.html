@@ -76,15 +76,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
     width: 70%;
-    margin-top: 6%;
+    margin-top: 4%;
   }
 
   .card {
     width: 100%;
     text-align: center;
-    padding: 26px 30px;
+    padding: 22px 28px;
     border: 1px solid rgba(220, 38, 38, 0.4);
     border-radius: 4px;
     background: rgba(15, 15, 15, 0.92);
@@ -96,7 +96,7 @@
 
   .card.small {
     width: 65%;
-    padding: 18px 24px;
+    padding: 16px 22px;
   }
 
   .label {
@@ -104,7 +104,7 @@
     letter-spacing: 0.35em;
     text-transform: uppercase;
     color: #b91c1c;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     font-weight: 500;
   }
 
@@ -112,7 +112,7 @@
     font-size: clamp(15px, 2.2vw, 20px);
     font-weight: 300;
     color: #e5e5e5;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
     letter-spacing: 0.02em;
   }
 
@@ -137,7 +137,7 @@
   }
 
   .number {
-    font-size: clamp(36px, 6.5vw, 64px);
+    font-size: clamp(32px, 5.8vw, 58px);
     font-weight: 700;
     line-height: 1;
     color: #f5f5f5;
@@ -150,7 +150,7 @@
   }
 
   .unit-label {
-    margin-top: 10px;
+    margin-top: 8px;
     font-size: 10px;
     letter-spacing: 0.3em;
     text-transform: uppercase;
@@ -164,7 +164,7 @@
   }
 
   .infinity {
-    font-size: clamp(48px, 8vw, 120px);
+    font-size: clamp(40px, 7vw, 100px);
     line-height: 1;
     color: #ef4444;
     font-weight: 300;
@@ -173,7 +173,7 @@
   }
 
   .initials {
-    margin-top: 14px;
+    margin-top: 10px;
     display: flex;
     align-items: baseline;
     justify-content: center;
@@ -187,18 +187,42 @@
     font-family: 'Cormorant Garamond', 'Georgia', serif;
     font-style: italic;
     font-weight: 500;
-    font-size: clamp(38px, 6.5vw, 62px);
+    font-size: clamp(34px, 5.8vw, 56px);
     color: #f5f5f5;
   }
 
   .initials .amp {
     font-family: 'Times New Roman', Times, serif, cursive;
     font-weight: 400;
-    font-size: clamp(46px, 8vw, 55px);
+    font-size: clamp(40px, 7vw, 50px);
     color: #ef4444;
     margin: 0 0.05em;
     transform: translateY(0.1em);
     text-shadow: 0 0 18px rgba(239, 68, 68, 0.6);
+  }
+
+  /* Olympic score card */
+  .score {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    line-height: 1;
+  }
+
+  .score .digit {
+    font-size: clamp(32px, 5.5vw, 54px);
+    font-weight: 700;
+    color: #f5f5f5;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 0 24px rgba(239, 68, 68, 0.3);
+  }
+
+  .score .dash {
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 300;
+    color: #ef4444;
+    text-shadow: 0 0 18px rgba(239, 68, 68, 0.5);
   }
 
   @keyframes pulse {
@@ -233,21 +257,26 @@
     }
 
     .stack {
-      width: 74%;
-      gap: 10px;
-      margin-top: 8%;
+      width: 76%;
+      gap: 8px;
+      margin-top: 6%;
     }
 
-    .card { padding: 18px 16px; }
-    .card.small { width: 78%; padding: 14px 16px; }
-    .label { font-size: 9px; letter-spacing: 0.25em; margin-bottom: 10px; }
-    .headline { margin-bottom: 12px; }
-    .counter { gap: 14px; }
+    .card { padding: 14px 14px; }
+    .card.small { width: 80%; padding: 11px 14px; }
+    .label { font-size: 9px; letter-spacing: 0.22em; margin-bottom: 8px; }
+    .headline { margin-bottom: 10px; font-size: 13px; }
+    .counter { gap: 12px; }
     .unit { min-width: 0; }
-    .unit-label { font-size: 9px; letter-spacing: 0.2em; }
-    .infinity { font-size: clamp(60px, 16vw, 110px); }
-    .initials .letter { font-size: clamp(38px, 11vw, 60px); }
-    .initials .amp { font-size: clamp(46px, 13vw, 70px); }
+    .number { font-size: clamp(28px, 8vw, 44px); }
+    .unit-label { font-size: 9px; letter-spacing: 0.2em; margin-top: 6px; }
+    .infinity { font-size: clamp(48px, 13vw, 90px); }
+    .initials { margin-top: 6px; }
+    .initials .letter { font-size: clamp(32px, 9vw, 50px); }
+    .initials .amp { font-size: clamp(38px, 11vw, 58px); }
+    .score { gap: 14px; }
+    .score .digit { font-size: clamp(28px, 8vw, 44px); }
+    .score .dash { font-size: clamp(24px, 7vw, 38px); }
   }
 </style>
 </head>
@@ -287,6 +316,15 @@
           <span class="letter">E</span>
           <span class="amp">&amp;</span>
           <span class="letter">I</span>
+        </div>
+      </div>
+
+      <div class="card small">
+        <div class="label">Olimpijske igre</div>
+        <div class="score">
+          <span class="digit">1</span>
+          <span class="dash">−</span>
+          <span class="digit">1</span>
         </div>
       </div>
     </div>
